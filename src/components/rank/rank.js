@@ -3,7 +3,7 @@ import React from "react";
 const Rank = () => {
     return (
 
-        <div>
+        <div className="w-80">
             <div className="white f3">
                 {"Ari, you're current rank is ..."}
             </div>

@@ -42,7 +42,30 @@ class App extends Component {
     this.state = {
       input: "",
       imageUrl: "",
+      boxes: {},
     }
+  }
+
+  calculateFaceLocation = (data) => {
+    const arrayOfRegions = data.outputs[0].data.regions;
+    const arrayOfBoundingBoxes = arrayOfRegions.map(region => region.region_info.bounding_box);
+    
+    const image = document.getElementById("inputImage");
+    const width = Number(image.width);
+    const height = Number(image.height);
+
+    const arrayOfCoords = arrayOfBoundingBoxes.map(boundingBox => ( {
+      leftCol: boundingBox.left_col * width,
+      topRow: boundingBox.top_row * height,
+      rightCol: width - (boundingBox.right_col * width),
+      bottomRow: height - (boundingBox.bottom_row * height)}
+    ));
+
+    return arrayOfCoords;
+  }
+
+  displayFaceBox = (boxes) => {
+    this.setState({boxes: boxes});
   }
 
   onInputChange = (event) => {
@@ -55,16 +78,12 @@ class App extends Component {
 
     //API CALL
     appClarifai.models.predict(
-      Clarifai.COLOR_MODEL, 
+      Clarifai.FACE_DETECT_MODEL, 
       this.state.input)
-      .then(function(response) {
-      console.log(response);
-      // do something with response
-    },
-    function(err) {
-      // there was an error
-    }
-  );
+      .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
+      .catch(error => console.log(error));
+
+      
   }
 
   render() {
@@ -72,13 +91,15 @@ class App extends Component {
       <div className="App">
         <Particles className="particles" params={particlesOptions} />
         <Navigation />
-        <Logo />
-        <Rank />
+        <div className="flex items-center">
+        <Logo/>
+        <Rank className=""/>
+        </div>
         <ImageLinkForm 
         onInputChange={this.onInputChange} 
         onButtonSubmit={this.onButtonSubmit}/> 
         
-        <FaceRecognition imageUrl={this.state.imageUrl}/>
+        <FaceRecognition boxes={this.state.boxes} imageUrl={this.state.imageUrl}/>
       </div>
     );
 }
