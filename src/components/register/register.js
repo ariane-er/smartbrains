@@ -67,7 +67,7 @@ onSubmitRegister = () => {
             })
             .then(response => response.json())
             .then(user => { //the response data from the back-end is the new user
-                if (user) {
+                if (user.id) {
                     this.props.loadUser(user);
                     this.props.onRouteChange("home");
                 }
@@ -80,7 +80,6 @@ onSubmitRegister = () => {
         this.setState({passwordNotMatch: true});
     }    
 
-    console.log(this.state);
     
 }
 

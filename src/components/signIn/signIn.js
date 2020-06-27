@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import Collapse from '@material-ui/core/Collapse';
+import Alert from "@material-ui/lab/Alert";
+
 
 //Convert this into smart component to use states
 
@@ -10,6 +13,7 @@ class SignIn extends Component {
         this.state = {
             signInEmail: "",
             signInPassword: "",
+            showWarning: false,
         }
     };
 
@@ -40,10 +44,13 @@ class SignIn extends Component {
                 //so we can route the user to 'home'.
                 this.props.loadUser(user);
                 this.props.onRouteChange("home");
+                this.setState({ showWarning: false })
+            } else if (user === "Wrong credentials.") {
+                this.setState({ showWarning: true })
             }
         })
 
-        console.log(this.state);
+        
         
     }
 
@@ -52,6 +59,12 @@ class SignIn extends Component {
         const { onRouteChange } = this.props;
 
         return (
+            <div>
+            <div className="flex items-center justify-center">
+            <Collapse in={this.state.showWarning}>
+                <Alert severity="error">Wrong credentials.</Alert>
+            </Collapse>
+            </div>
             <div className=" flex items-center justify-center" >
             
             <article className="br3 shadow-5 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 center v-mid">
@@ -95,7 +108,7 @@ class SignIn extends Component {
                 </main>
             </article>
             </div>
-            
+            </div>
     
         );
     };
