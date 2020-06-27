@@ -55,7 +55,7 @@ onSubmitRegister = () => {
         && this.state.registerName !== "" ) {
 
             //fetch to check the sign in
-            fetch("http://localhost:3000/register", {
+            fetch("https://cryptic-bastion-56567.herokuapp.com/register", {
                 //pass an object with parameters
                 method: "post",
                 headers: {"Content-Type": "application/json"},

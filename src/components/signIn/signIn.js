@@ -28,7 +28,7 @@ class SignIn extends Component {
     onSubmitSignIn = () => {
 
         //fetch to check the sign in
-        fetch("http://localhost:3000/signin", {
+        fetch("https://cryptic-bastion-56567.herokuapp.com/signin", {
             //pass an object with parameters
             method: "post",
             headers: {"Content-Type": "application/json"},

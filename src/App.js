@@ -98,7 +98,7 @@ class App extends Component {
     this.setState({imageUrl: this.state.input});
 
     //API CALL
-    fetch("http://localhost:3000/imageurl", {
+    fetch("https://cryptic-bastion-56567.herokuapp.com/imageurl", {
       method:"post",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -108,7 +108,7 @@ class App extends Component {
       .then(response => response.json())
       .then(response => {
         if(response) { //another fetch to update entry count
-          fetch("http://localhost:3000/image", {
+          fetch("https://cryptic-bastion-56567.herokuapp.com/image", {
                 method: "put",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
